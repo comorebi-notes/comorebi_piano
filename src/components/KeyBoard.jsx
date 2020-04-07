@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Key from './Key'
 import styles from './KeyBoard.module.sass'
 
@@ -18,6 +18,19 @@ const KeyBoard = () => {
     'B4':  [190, 71],
     'C5':  [191, 72]
   }
+  const [audioContext, setAudioContext] = useState()
+  const [gain, setGain] = useState()
+  useEffect(() => {
+    const AudioContext = window.AudioContext || window.webkitAudioContext
+    const atx = new AudioContext()
+    const gainNode = atx.createGain()
+    gainNode.gain.value = 1 / 12
+    gainNode.connect(atx.destination)
+
+    setAudioContext(atx)
+    setGain(gainNode)
+  }, [])
+
   const [activeKeys, setActiveKeys] = useState([])
   const handleKeyDown = (e) => {
     if (e.repeat) return
@@ -26,7 +39,6 @@ const KeyBoard = () => {
   const handleKeyUp = (e) => {
     setActiveKeys(activeKeys.filter((n) => n !== e.keyCode))
   }
-  console.log(activeKeys)
   return (
     <div
       className={styles.keyboard}
@@ -34,21 +46,18 @@ const KeyBoard = () => {
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
     >
-      <Key type="white" keyMap={keyMap['C4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['D4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['E4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['F4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['G4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['A4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['B4']} activeKeys={activeKeys} />
-      <Key type="white" keyMap={keyMap['C5']} activeKeys={activeKeys} />
-      <div className={styles.black_wrapper}>
-        <Key type="black" keyMap={keyMap['C#4']} activeKeys={activeKeys} />
-        <Key type="black" keyMap={keyMap['D#4']} activeKeys={activeKeys} />
-        <Key type="black" keyMap={keyMap['F#4']} activeKeys={activeKeys} />
-        <Key type="black" keyMap={keyMap['G#4']} activeKeys={activeKeys} />
-        <Key type="black" keyMap={keyMap['A#4']} activeKeys={activeKeys} />
-      </div>
+      {audioContext && (
+        <>
+          {['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'].map((scale) => (
+            <Key key={scale} type="white" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[scale]} />
+          ))}
+          <div className={styles.black_wrapper}>
+            {['C#4', 'D#4', 'F#4', 'G#4', 'A#4'].map((scale) => (
+              <Key key={scale} type="black" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[scale]} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

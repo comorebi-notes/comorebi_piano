@@ -2,20 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Key.module.sass'
 
-const Key = ({ type, keyMap: [keyCode, midiKey], activeKeys }) => {
-  const freq = 440.0 * Math.pow(2.0, (midiKey - 69.0) / 12.0)
+const Key = ({ audioContext, destination, type, keyMap: [keyCode, midiKey], activeKeys }) => {
+  const frequency = 440.0 * Math.pow(2.0, (midiKey - 69.0) / 12.0)
 
   const [active, setActive] = useState(false)
   const [oscillator, setOscillator] = useState(false)
 
   const buildOscillator = useCallback(() => {
-    const audioContext = new AudioContext()
     const oscillatorNode = audioContext.createOscillator()
     oscillatorNode.type = 'triangle'
-    oscillatorNode.frequency.value = freq
-    oscillatorNode.connect(audioContext.destination)
+    oscillatorNode.frequency.value = frequency
+    oscillatorNode.connect(destination)
     setOscillator(oscillatorNode)
-  }, [freq])
+  }, [audioContext, destination, frequency])
   useEffect(buildOscillator, [])
 
   const start = useCallback(() => {
@@ -33,10 +32,11 @@ const Key = ({ type, keyMap: [keyCode, midiKey], activeKeys }) => {
   useEffect(() => {
     if (activeKeys.includes(keyCode)) {
       start()
-    } else {
+    } else if (active) {
       stop()
     }
-  }, [activeKeys, keyCode, start, stop])
+    // eslint-disable-next-line
+  }, [activeKeys, keyCode])
   return (
     <div className={classNames(styles[type], { [styles.active]: active })} onMouseDown={start} onMouseUp={stop} />
   )
