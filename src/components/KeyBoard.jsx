@@ -4,6 +4,30 @@ import styles from './KeyBoard.module.sass'
 
 const KeyBoard = () => {
   const keyMap = {
+    'C2':  [81,  36],
+    'C#2': [50,  37],
+    'D2':  [87,  38],
+    'D#2': [51,  39],
+    'E2':  [69,  40],
+    'F2':  [82,  41],
+    'F#2': [53,  42],
+    'G2':  [84,  43],
+    'G#2': [54,  44],
+    'A2':  [89,  45],
+    'A#2': [55,  46],
+    'B2':  [85,  47],
+    'C3':  [73,  48],
+    'C#3': [57,  49],
+    'D3':  [79,  50],
+    'D#3': [48,  51],
+    'E3':  [80,  52],
+    'F3':  [192, 53],
+    'F#3': [187, 54],
+    'G3':  [219, 55],
+    'G#3': [65,  56],
+    'A3':  [90,  57],
+    'A#3': [83,  58],
+    'B3':  [88,  59],
     'C4':  [67,  60],
     'C#4': [70,  61],
     'D4':  [86,  62],
@@ -16,7 +40,6 @@ const KeyBoard = () => {
     'A4':  [188, 69],
     'A#4': [76,  70],
     'B4':  [190, 71],
-    'C5':  [191, 72]
   }
   const [audioContext, setAudioContext] = useState()
   const [gain, setGain] = useState()
@@ -24,7 +47,7 @@ const KeyBoard = () => {
     const AudioContext = window.AudioContext || window.webkitAudioContext
     const atx = new AudioContext()
     const gainNode = atx.createGain()
-    gainNode.gain.value = 1 / 12
+    gainNode.gain.value = .25
     gainNode.connect(atx.destination)
 
     setAudioContext(atx)
@@ -41,21 +64,25 @@ const KeyBoard = () => {
   }
   return (
     <div
-      className={styles.keyboard}
+      className={styles.wrapper}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
     >
       {audioContext && (
         <>
-          {['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'].map((scale) => (
-            <Key key={scale} type="white" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[scale]} />
+          {[2, 3, 4].map((octave) => (
+            <div key={octave} className={styles.keyboard}>
+              {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((scale) => (
+                <Key key={scale} type="white" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[`${scale}${octave}`]} />
+              ))}
+              <div className={styles.black_wrapper}>
+                {['C#', 'D#', 'F#', 'G#', 'A#'].map((scale) => (
+                  <Key key={scale} type="black" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[`${scale}${octave}`]} />
+                ))}
+              </div>
+            </div>
           ))}
-          <div className={styles.black_wrapper}>
-            {['C#4', 'D#4', 'F#4', 'G#4', 'A#4'].map((scale) => (
-              <Key key={scale} type="black" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[scale]} />
-            ))}
-          </div>
         </>
       )}
     </div>
