@@ -1,0 +1,36 @@
+@import '../assets/stylesheets/bootstrap_custom'
+
+.white
+  border: 2px solid $gray-dark
+  background-color: $white
+  height: 100%
+  width: 100%
+  cursor: pointer
+  &:not(:first-child)
+    border-left: none
+  &:hover
+    background-color: darken($white, 10%)
+  &:active
+    background-color: darken($white, 20%)
+.black
+  $white-width: 100% / 8
+  $black-width: 8%
+  background-color: $gray-dark
+  height: 100%
+  width: 8%
+  cursor: pointer
+  position: absolute
+  &:hover
+    background-color: darken($gray-dark, 10%)
+  &:active
+    background-color: darken($gray-dark, 20%)
+  &:first-child
+    left: $white-width - $black-width / 2
+  &:nth-child(2)
+    left: $white-width * 2 - $black-width / 2
+  &:nth-child(3)
+    left: $white-width * 4 - $black-width / 2
+  &:nth-child(4)
+    left: $white-width * 5 - $black-width / 2
+  &:nth-child(5)
+    left: $white-width * 6 - $black-width / 2

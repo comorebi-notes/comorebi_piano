@@ -1,0 +1,214 @@
+@import 'bootstrap_custom.sass'
+@import '~bootstrap/scss/bootstrap.scss'
+@import 'print.sass'
+
+// -------- common --------
+html, body, #root
+  height: 100%
+h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5
+  font-weight: bold
+  time
+    font-weight: normal
+h1, .h1
+  margin-bottom: 2rem
+h2, .h2
+  margin-bottom: 1.6rem
+h3, .h3
+  margin-bottom: 1.6rem
+h4, .h4
+  margin-bottom: 1.2rem
+h5, .h5
+  margin-bottom: .8rem
+table
+  th
+    background-color: $gray-lightest
+  td
+    background-color: $white
+hr
+  margin: 1.6rem 0
+.container
+  +media-breakpoint-down(lg)
+    max-width: 1020px
+.navbar
+  padding: .4rem 1rem
+.btn
+  &-reset
+    outline: none !important
+    padding: 0
+    border: none
+    color: $primary
+    text-decoration: none
+    background-color: transparent
+    &:not(:disabled)
+      &:hover, &:active
+        box-shadow: none
+        color: darken($primary, 15%)
+        text-decoration: underline
+        background-color: transparent
+  &-pill
+    border-radius: 100px
+    padding-left: 1rem
+    padding-right: 1rem
+    &.btn-lg
+      padding-left: 2rem
+      padding-right: 2rem
+  &-outline
+    &-primary, &-secondary, &-warning, &-danger, &-dark
+      &, &:disabled
+        background-color: $white
+  &-xs
+    font-size: $font-size-xs
+    padding: 1px .6rem
+  &.disabled, &:disabled
+    cursor: auto
+.badge
+  &-outline-dark
+    color: $gray-dark
+    border: 1px solid $gray-dark
+    background-color: $white
+.text
+  &-xl
+    font-size: $h4-font-size
+  &-lg
+    font-size: $h5-font-size
+  &-md
+    font-size: $font-size-base
+  &-sm
+    font-size: $font-size-sm
+  &-xs
+    font-size: $font-size-xs
+  &-link
+    color: $primary !important
+    cursor: pointer
+    &:hover
+      color: darken($primary, 15%) !important
+      text-decoration: underline !important
+  &-disabled
+    color: $gray-light
+.line-height
+  &-lg
+    line-height: $line-height-lg !important
+  &-base
+    line-height: $line-height-base !important
+  &-sm
+    line-height: $line-height-sm !important
+  &-xs
+    line-height: $line-height-xs !important
+  &-xxs
+    line-height: $line-height-xxs !important
+.bg
+  &-gray
+    background-color: $gray
+    &-dark
+      background-color: $gray-dark
+    &-darker
+      background-color: $gray-darker
+    &-light
+      background-color: $gray-light
+    &-lighter
+      background-color: $gray-lighter
+    &-lighest
+      background-color: $gray-lightest
+  &-sdgs
+    &-1
+      background-color: #d22d2c
+    &-2
+      background-color: #cfa738
+    &-3
+      background-color: #489446
+    &-4
+      background-color: #b52a30
+    &-5
+      background-color: #d6452c
+    &-6
+      background-color: #48a5d4
+    &-7
+      background-color: #f1be41
+    &-8
+      background-color: #8b1f33
+    &-9
+      background-color: #dd712d
+    &-10
+      background-color: #c13071
+    &-11
+      background-color: #eaa53c
+    &-12
+      background-color: #ca9434
+    &-13
+      background-color: #4e773e
+    &-14
+      background-color: #2f75b5
+    &-15
+      background-color: #53a548
+    &-16
+      background-color: #1c4c84
+    &-17
+      background-color: #0f3164
+.modal-content
+  overflow: hidden
+.separator
+  opacity: .4
+.spinner-border
+  border-width: 3px !important
+.form-control
+  &.read-only
+    background-color: $gray-lighter
+    opacity: 1
+.transition
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+.custom-control-inline
+  margin-right: 1.4rem
+.list-inline
+  &-slash
+    li:not(:last-child):after
+      content: '/'
+      margin-left: .5rem
+      opacity: .4
+
+// -------- pages --------
+.list-group
+  &-item
+    margin: .4rem 0
+    border: 0 !important
+    border-radius: 0 !important
+    background-color: $gray-lighter
+    color: $gray-darker
+    a
+      color: $gray-darker
+    &.active
+      &:not(.list-group-item-sub)
+        background-color: $white
+        color: $primary
+        font-weight: bold
+      &.list-group-item-sub
+        background-color: $gray-lighter
+        color: $primary
+        font-weight: bold
+    &:hover
+      background-color: $primary !important
+      color: $white !important
+    & + &.active
+      margin-top: .4rem
+.with-footer
+  padding-bottom: 4rem
+.page-title
+  font-size: $font-size-base
+  strong
+    display: block
+    font-size: $font-size-h1
+    font-weight: bold
+    small
+      color: $text-color
+      font-size: $h5-font-size
+      font-weight: bold
+      margin-left: .4rem
+  > small
+    color: $gray
+    font-size: $h5-font-size
+    small
+      font-size: $font-size-sm
+  &.h2
+    strong
+      font-size: 2rem
+    small
+      font-size: $font-size-base
