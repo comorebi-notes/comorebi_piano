@@ -68,6 +68,8 @@ const KeyBoard = () => {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
+      onTouchStart={handleKeyDown}
+      onTouchEnd={handleKeyUp}
     >
       {audioContext && (
         <>
