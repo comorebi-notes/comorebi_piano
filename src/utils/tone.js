@@ -1,8 +1,9 @@
 let Tone
 
-export const initializeTone = async ({ setLoaded, setSampler }) => {
+export const initializeTone = async ({ setLoaded, setVolumeNode, setSampler }) => {
   Tone = await import('tone')
 
+  const volumeNode = new Tone.Volume(0).toDestination()
   const sampler = new Tone.Sampler({
     urls: {
       E2: 'e2.mp3',
@@ -11,7 +12,11 @@ export const initializeTone = async ({ setLoaded, setSampler }) => {
       E5: 'e5.mp3'
     },
     baseUrl: './samples/',
-  }).toDestination()
+  })
+
+  sampler.connect(volumeNode)
+
+  setVolumeNode(volumeNode)
   setSampler(sampler)
 
   Tone.loaded().then(() => setLoaded(true))

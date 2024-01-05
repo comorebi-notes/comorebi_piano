@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Key from './Key'
+import VolumeSlider from './VolumeSlider'
 import styles from './KeyBoard.module.sass'
 import { initializeTone, keyboardCodeMap } from '../utils/tone'
 
@@ -7,6 +8,7 @@ const KeyBoard = () => {
   const [started, setStarted] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [sampler, setSampler] = useState()
+  const [volumeNode, setVolumeNode] = useState()
   const [activeKeys, setActiveKeys] = useState([])
 
   const handleKeyDown = (e) => {
@@ -20,12 +22,8 @@ const KeyBoard = () => {
   const handleMouseUp = (keyCode) => setActiveKeys(activeKeys.filter((n) => n !== keyCode))
 
   useEffect(() => {
-    if (started) initializeTone({ setLoaded, setSampler })
+    if (started) initializeTone({ setLoaded, setSampler, setVolumeNode })
   }, [started])
-
-  useEffect(() => {
-    if (activeKeys.length === 0) console.log('========')
-  }, [activeKeys])
 
   return (
     <div
@@ -36,7 +34,8 @@ const KeyBoard = () => {
       onTouchStart={handleKeyDown}
       onTouchEnd={handleKeyUp}
     >
-      <>
+      <VolumeSlider volumeNode={volumeNode} />
+      <div className={styles.keyboards}>
         {[2, 3, 4, 5].map((octave) => (
           <div key={octave} className={styles.keyboard}>
             {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((scale) => (
@@ -67,7 +66,7 @@ const KeyBoard = () => {
             </div>
           </div>
         ))}
-      </>
+      </div>
       {!(started && loaded) && (
         <button className={styles.start_btn} onClick={() => setStarted(true)}>
           {started ? 'Loading...' : 'CLICK START'}
