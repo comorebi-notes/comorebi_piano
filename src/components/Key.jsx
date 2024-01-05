@@ -15,7 +15,7 @@ const Key = ({ audioContext, destination, type, keyMap: [keyCode, midiKey], acti
     oscillatorNode.connect(destination)
     setOscillator(oscillatorNode)
   }, [audioContext, destination, frequency])
-  useEffect(buildOscillator, [])
+  useEffect(buildOscillator, [buildOscillator])
 
   const start = useCallback(() => {
     if (active) return
