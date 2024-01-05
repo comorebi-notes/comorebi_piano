@@ -2,7 +2,7 @@ import React from 'react'
 
 const TransposeSlider = ({ transpose, setTranspose }) => (
   <div className="range-slider">
-    <label className="range-slider-label" htmlFor="transpose">
+    <label className="range-slider-label input-ui-label" htmlFor="transpose">
       Transpose
     </label>
     <input

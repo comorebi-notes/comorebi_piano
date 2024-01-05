@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const VolumeSlider = ({ volumeNode }) => {
-  const [volume, setVolume] = useState(0)
+  const [volume, setVolume] = useState(-4)
 
   const handleVolumeChange = (e) => {
     volumeNode.volume.value = e.target.value
@@ -12,7 +12,7 @@ const VolumeSlider = ({ volumeNode }) => {
 
   return (
     <div className="range-slider">
-      <label className="range-slider-label" htmlFor="volume">
+      <label className="range-slider-label input-ui-label" htmlFor="volume">
         Volume
       </label>
       <input

@@ -15,7 +15,9 @@ const ReverbSwitch = ({ reverbNode }) => {
   return (
     <div className="switch-check-box">
       <label className="switch-check-box-label" htmlFor="reverb">
-        Reverb
+        <span className="input-ui-label">
+          Reverb
+        </span>
         <input
           className="switch-check-box-input"
           id="reverb"

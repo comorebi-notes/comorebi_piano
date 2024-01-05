@@ -5,7 +5,7 @@ let Tone
 export const initializeTone = async ({ setLoaded, setVolumeNode, setReverbNode, setSampler }) => {
   Tone = await import('tone')
 
-  const volumeOptions = 0
+  const volumeOptions = -4
   const reverbOptions = { decay: 1.5, wet: 0 }
   const samplerOptions = {
     urls: {
