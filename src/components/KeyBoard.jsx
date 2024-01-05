@@ -77,7 +77,7 @@ const KeyBoard = () => {
       </div>
       {!(started && loaded) && (
         <button className={styles.start_btn} onClick={() => setStarted(true)}>
-          {started ? 'Loading...' : 'CLICK START'}
+          {started ? 'Loading...' : 'Click to Start'}
         </button>
       )}
     </div>
