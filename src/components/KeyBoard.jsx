@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Key from './Key'
 import VolumeSlider from './VolumeSlider'
+import TransposeSlider from './TransposeSlider'
 import styles from './KeyBoard.module.sass'
-import { initializeTone, keyboardCodeMap } from '../utils/tone'
+import { initializeTone, keyboardCodeMap, transposeNote } from '../utils/tone'
 
 const KeyBoard = () => {
   const [started, setStarted] = useState(false)
@@ -10,6 +11,7 @@ const KeyBoard = () => {
   const [sampler, setSampler] = useState()
   const [volumeNode, setVolumeNode] = useState()
   const [activeKeys, setActiveKeys] = useState([])
+  const [transpose, setTranspose] = useState(0)
 
   const handleKeyDown = (e) => {
     if (e.repeat) return
@@ -34,7 +36,10 @@ const KeyBoard = () => {
       onTouchStart={handleKeyDown}
       onTouchEnd={handleKeyUp}
     >
-      <VolumeSlider volumeNode={volumeNode} />
+      <div className={styles.controls}>
+        <VolumeSlider volumeNode={volumeNode} />
+        <TransposeSlider transpose={transpose} setTranspose={setTranspose} />
+      </div>
       <div className={styles.keyboards}>
         {[2, 3, 4, 5].map((octave) => (
           <div key={octave} className={styles.keyboard}>
@@ -43,7 +48,7 @@ const KeyBoard = () => {
                 key={scale}
                 type="white"
                 activeKeys={activeKeys}
-                note={`${scale}${octave}`}
+                note={transposeNote(`${scale}${octave}`, transpose)}
                 keyCode={keyboardCodeMap[`${scale}${octave}`]}
                 sampler={sampler}
                 handleMouseDown={handleMouseDown}
@@ -56,7 +61,7 @@ const KeyBoard = () => {
                   key={scale}
                   type="black"
                   activeKeys={activeKeys}
-                  note={`${scale}${octave}`}
+                  note={transposeNote(`${scale}${octave}`, transpose)}
                   keyCode={keyboardCodeMap[`${scale}${octave}`]}
                   sampler={sampler}
                   handleMouseDown={handleMouseDown}

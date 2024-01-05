@@ -1,8 +1,67 @@
 @use 'reset-css'
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap')
+@use './lib' as *
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@500&display=swap')
 
 html
   font-size: 16px
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Verdana, Meiryo, "M+ 1p", sans-serif
+  font-family: "DM Mono", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Verdana, Meiryo, "M+ 1p", sans-serif
 *
   box-sizing: border-box
+
+.range-slider
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 1rem
+  &-label
+    color: $white
+    font-size: .88rem
+  &-input
+    $range-bg-color: $white
+    $range-slider-height: .16rem
+    $range-slider-knob-size: 1rem
+    $range-slider-focus-visible: .4rem
+    -webkit-appearance: none
+    height: $range-slider-height
+    background-color: $gray-dark
+    background-image: linear-gradient($range-bg-color, $range-bg-color)
+    background-repeat: no-repeat
+    background-size: 100% 100% // JavaScriptで上書きする想定
+    border: none
+    border-radius: 0
+    &:active, &:focus-visible
+      outline: 0
+      &::-webkit-slider-thumb
+        outline: .32rem solid rgba($white, .25)
+        outline-offset: 0
+      &::-moz-range-thumb
+        outline: .32rem solid rgba($white, .25)
+        outline-offset: 0
+    &::-webkit-slider-thumb
+      -webkit-appearance: none
+      cursor: ew-resize
+      height: $range-slider-knob-size
+      width: $range-slider-knob-size
+      background: $range-bg-color
+      border: none
+      border-radius: 100rem
+      box-shadow: none
+    &::-moz-range-thumb
+      cursor: ew-resize
+      height: $range-slider-knob-size
+      width: $range-slider-knob-size
+      background: $range-bg-color
+      border: none
+      border-radius: 100rem
+      box-shadow: none
+    &::-webkit-slider-runnable-track
+      -webkit-appearance: none
+      background: transparent
+      border: none
+      box-shadow: none
+    &:focus-visible
+      outline-offset: $range-slider-focus-visible
+  &-value
+    color: $white
+    font-size: .88rem

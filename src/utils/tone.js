@@ -1,3 +1,5 @@
+import { Note } from 'tonal'
+
 let Tone
 
 export const initializeTone = async ({ setLoaded, setVolumeNode, setSampler }) => {
@@ -21,6 +23,8 @@ export const initializeTone = async ({ setLoaded, setVolumeNode, setSampler }) =
 
   Tone.loaded().then(() => setLoaded(true))
 }
+
+export const transposeNote = (note, interval) => Note.fromMidi(Note.midi(note) + parseInt(interval))
 
 export const keyboardCodeMap = {
   'C2':  'KeyQ',
