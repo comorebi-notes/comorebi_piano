@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Key from './Key'
 import VolumeSlider from './VolumeSlider'
 import TransposeSlider from './TransposeSlider'
 import ReverbSwitch from './ReverbSwitch'
 import styles from './KeyBoard.module.sass'
 import { initializeTone, keyboardCodeMap, transposeNote } from '../utils/tone'
+import localStorage from 'localStorage'
 
 const KeyBoard = () => {
   const [started, setStarted] = useState(false)
@@ -13,7 +14,9 @@ const KeyBoard = () => {
   const [volumeNode, setVolumeNode] = useState()
   const [reverbNode, setReverbNode] = useState()
   const [activeKeys, setActiveKeys] = useState([])
-  const [transpose, setTranspose] = useState(0)
+  const [transpose, setTranspose] = useState(localStorage.getItem('transpose') || 0)
+
+  const wrapperRef = useRef()
 
   const handleKeyDown = (e) => {
     if (e.repeat) return
@@ -32,11 +35,20 @@ const KeyBoard = () => {
   }
 
   useEffect(() => {
-    if (started) initializeTone({ setLoaded, setVolumeNode, setReverbNode, setSampler })
+    if (started) {
+      initializeTone({ setLoaded, setVolumeNode, setReverbNode, setSampler })
+    }
   }, [started])
+
+  useEffect(() => {
+    if (loaded) {
+      wrapperRef.current.focus()
+    }
+  }, [loaded])
 
   return (
     <div
+      ref={wrapperRef}
       className={styles.wrapper}
       tabIndex={0}
       onKeyDown={handleKeyDown}

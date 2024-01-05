@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
+import localStorage from 'localStorage'
 
 const ReverbSwitch = ({ reverbNode }) => {
-  const [isEnabledReverb, setEnabledReverb] = useState(false)
+  const reverbWetValue = .5
+  const [isEnabledReverb, setEnabledReverb] = useState(localStorage.getItem('reverb_wet') === reverbWetValue.toString() || false)
 
   const enableReverb = () => {
-    reverbNode.wet.value = .5
+    reverbNode.wet.value = reverbWetValue
     setEnabledReverb(true)
+    localStorage.setItem('reverb_wet', reverbNode.wet.value)
   }
   const disableReverb = () => {
     reverbNode.wet.value = 0
     setEnabledReverb(false)
+    localStorage.setItem('reverb_wet', reverbNode.wet.value)
   }
 
   return (
@@ -22,7 +26,7 @@ const ReverbSwitch = ({ reverbNode }) => {
           className="switch-check-box-input"
           id="reverb"
           type="checkbox"
-          value={isEnabledReverb || false}
+          defaultChecked={isEnabledReverb || false}
           onChange={() => isEnabledReverb ? disableReverb() : enableReverb()}
         />
         <span className="switch-check-box-ui"/>

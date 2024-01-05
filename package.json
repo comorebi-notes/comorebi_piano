@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "classnames": "^2.5.1",
     "electron-is-dev": "^2.0.0",
+    "localStorage": "^1.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",

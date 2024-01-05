@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import localStorage from 'localStorage'
 
 const VolumeSlider = ({ volumeNode }) => {
-  const [volume, setVolume] = useState(-4)
+  const [volume, setVolume] = useState(localStorage.getItem('volume') || -4)
 
   const handleVolumeChange = (e) => {
     volumeNode.volume.value = e.target.value
     setVolume(e.target.value)
+    localStorage.setItem('volume', e.target.value)
   }
   const minVolume = -20
   const humanVolume = (volume) => (parseInt(volume) + Math.abs(minVolume)) * 5

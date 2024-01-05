@@ -1,12 +1,13 @@
 import { Note } from 'tonal'
+import localStorage from 'localStorage'
 
 let Tone
 
 export const initializeTone = async ({ setLoaded, setVolumeNode, setReverbNode, setSampler }) => {
   Tone = await import('tone')
 
-  const volumeOptions = -4
-  const reverbOptions = { decay: 1.5, wet: 0 }
+  const volumeOptions = localStorage.getItem('volume') || -4
+  const reverbOptions = { decay: 1.5, wet: localStorage.getItem('reverb_wet') || 0 }
   const samplerOptions = {
     urls: {
       E2: 'e2.mp3',
