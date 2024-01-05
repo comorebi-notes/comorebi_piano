@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "classnames": "^2.5.1",
     "electron-is-dev": "^2.0.0",
+    "electron-log": "^5.0.3",
     "localStorage": "^1.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,29 +21,28 @@
     "tone": "^14.7.77"
   },
   "scripts": {
-    "react-start": "cross-env BROWSER=none react-scripts start",
-    "react-build": "react-scripts build",
-    "electron-start": "wait-on http://localhost:4000 && electron .",
-    "electron-build": "electron-builder",
-    "start": "run-p react-start electron-start",
-    "build": "run-s react-build electron-build",
+    "react:start": "cross-env BROWSER=none react-scripts start",
+    "react:build": "react-scripts build",
+    "electron:start": "wait-on http://localhost:4000 && electron .",
+    "electron:build:mac": "yarn react:build && electron-builder",
+    "electron:build:mac:dir": "yarn react:build && electron-builder --dir",
+    "electron:build:win": "yarn react:build && electron-builder --win",
+    "electron:build:win:dir": "yarn react:build && electron-builder --win --dir",
+    "start": "run-p react:start electron:start",
+    "build": "run-s react:build electron:build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-surge": "yarn react-build && surge --project ./build --domain web-piano.surge.sh"
+    "deploy-surge": "yarn react:build && surge --project ./build --domain web-piano.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   },
   "devDependencies": {
@@ -54,11 +54,11 @@
   },
   "build": {
     "appId": "bi.comore.web-piano",
-    "productName": "comorebi_piano",
+    "productName": "comorebi piano",
     "copyright": "Copyright 2024 comorebi notes",
     "files": [
-      "./build/*",
-      "./public/electron.js"
+      "build/**/*",
+      "public/electron.js"
     ],
     "extraMetadata": {
       "main": "public/electron.js"

@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const isDev = require('electron-is-dev')
 const path = require('path')
+const log = require('electron-log')
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -26,4 +27,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+process.on('uncaughtException', (error) => {
+  log.error('electron:event:uncaughtException')
+  log.error(error)
+  log.error(error.stack)
+  app.quit()
 })
