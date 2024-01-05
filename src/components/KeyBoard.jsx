@@ -1,67 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import Key from './Key'
 import styles from './KeyBoard.module.sass'
+import { initializeTone, keyboardCodeMap } from '../utils/tone'
 
 const KeyBoard = () => {
-  const keyMap = {
-    'C2':  [81,  36],
-    'C#2': [50,  37],
-    'D2':  [87,  38],
-    'D#2': [51,  39],
-    'E2':  [69,  40],
-    'F2':  [82,  41],
-    'F#2': [53,  42],
-    'G2':  [84,  43],
-    'G#2': [54,  44],
-    'A2':  [89,  45],
-    'A#2': [55,  46],
-    'B2':  [85,  47],
-    'C3':  [73,  48],
-    'C#3': [57,  49],
-    'D3':  [79,  50],
-    'D#3': [48,  51],
-    'E3':  [80,  52],
-    'F3':  [192, 53],
-    'F#3': [187, 54],
-    'G3':  [219, 55],
-    'G#3': [65,  56],
-    'A3':  [90,  57],
-    'A#3': [83,  58],
-    'B3':  [88,  59],
-    'C4':  [67,  60],
-    'C#4': [70,  61],
-    'D4':  [86,  62],
-    'D#4': [71,  63],
-    'E4':  [66,  64],
-    'F4':  [78,  65],
-    'F#4': [74,  66],
-    'G4':  [77,  67],
-    'G#4': [75,  68],
-    'A4':  [188, 69],
-    'A#4': [76,  70],
-    'B4':  [190, 71],
-  }
-  const [audioContext, setAudioContext] = useState()
-  const [gain, setGain] = useState()
-  useEffect(() => {
-    const AudioContext = window.AudioContext || window.webkitAudioContext
-    const atx = new AudioContext()
-    const gainNode = atx.createGain()
-    gainNode.gain.value = .25
-    gainNode.connect(atx.destination)
-
-    setAudioContext(atx)
-    setGain(gainNode)
-  }, [])
-
+  const [started, setStarted] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+  const [sampler, setSampler] = useState()
   const [activeKeys, setActiveKeys] = useState([])
+
   const handleKeyDown = (e) => {
     if (e.repeat) return
-    setActiveKeys(activeKeys.concat(e.keyCode))
+    setActiveKeys(activeKeys.concat(e.code))
   }
   const handleKeyUp = (e) => {
-    setActiveKeys(activeKeys.filter((n) => n !== e.keyCode))
+    setActiveKeys(activeKeys.filter((n) => n !== e.code))
   }
+  const handleMouseDown = (keyCode) => setActiveKeys(activeKeys.concat(keyCode))
+  const handleMouseUp = (keyCode) => setActiveKeys(activeKeys.filter((n) => n !== keyCode))
+
+  useEffect(() => {
+    if (started) initializeTone({ setLoaded, setSampler })
+  }, [started])
+
+  useEffect(() => {
+    if (activeKeys.length === 0) console.log('========')
+  }, [activeKeys])
+
   return (
     <div
       className={styles.wrapper}
@@ -71,21 +36,42 @@ const KeyBoard = () => {
       onTouchStart={handleKeyDown}
       onTouchEnd={handleKeyUp}
     >
-      {audioContext && (
-        <>
-          {[2, 3, 4].map((octave) => (
-            <div key={octave} className={styles.keyboard}>
-              {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((scale) => (
-                <Key key={scale} type="white" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[`${scale}${octave}`]} />
+      <>
+        {[2, 3, 4, 5].map((octave) => (
+          <div key={octave} className={styles.keyboard}>
+            {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((scale) => (
+              <Key
+                key={scale}
+                type="white"
+                activeKeys={activeKeys}
+                note={`${scale}${octave}`}
+                keyCode={keyboardCodeMap[`${scale}${octave}`]}
+                sampler={sampler}
+                handleMouseDown={handleMouseDown}
+                handleMouseUp={handleMouseUp}
+              />
+            ))}
+            <div className={styles.black_wrapper}>
+              {['C#', 'D#', 'F#', 'G#', 'A#'].map((scale) => (
+                <Key
+                  key={scale}
+                  type="black"
+                  activeKeys={activeKeys}
+                  note={`${scale}${octave}`}
+                  keyCode={keyboardCodeMap[`${scale}${octave}`]}
+                  sampler={sampler}
+                  handleMouseDown={handleMouseDown}
+                  handleMouseUp={handleMouseUp}
+                />
               ))}
-              <div className={styles.black_wrapper}>
-                {['C#', 'D#', 'F#', 'G#', 'A#'].map((scale) => (
-                  <Key key={scale} type="black" audioContext={audioContext} destination={gain} activeKeys={activeKeys} keyMap={keyMap[`${scale}${octave}`]} />
-                ))}
-              </div>
             </div>
-          ))}
-        </>
+          </div>
+        ))}
+      </>
+      {!(started && loaded) && (
+        <button className={styles.start_btn} onClick={() => setStarted(true)}>
+          {started ? 'Loading...' : 'CLICK START'}
+        </button>
       )}
     </div>
   )

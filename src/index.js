@@ -4,7 +4,6 @@ import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import './assets/stylesheets/index.sass'
 
-// const container = document.querySelector('#root')
 const root = createRoot(document.querySelector('#root'))
 
 root.render(<App />)

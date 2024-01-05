@@ -1,44 +1,44 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Key.module.sass'
+import { keyMap } from '../utils/tone'
 
-const Key = ({ audioContext, destination, type, keyMap: [keyCode, midiKey], activeKeys }) => {
-  const frequency = 440.0 * Math.pow(2.0, (midiKey - 69.0) / 12.0)
-
+const Key = ({ type, note, keyCode, activeKeys, sampler, handleMouseDown, handleMouseUp }) => {
   const [active, setActive] = useState(false)
-  const [oscillator, setOscillator] = useState(false)
-
-  const buildOscillator = useCallback(() => {
-    const oscillatorNode = audioContext.createOscillator()
-    oscillatorNode.type = 'triangle'
-    oscillatorNode.frequency.value = frequency
-    oscillatorNode.connect(destination)
-    setOscillator(oscillatorNode)
-  }, [audioContext, destination, frequency])
-  useEffect(buildOscillator, [buildOscillator])
 
   const start = useCallback(() => {
     if (active) return
-    oscillator.start()
+
     setActive(true)
-  }, [active, oscillator])
+  }, [active])
+
   const stop = useCallback(() => {
     if (!active) return
-    oscillator.stop()
+
+    sampler.triggerRelease(note)
     setActive(false)
-    buildOscillator()
-  }, [active, oscillator, buildOscillator])
+  }, [active, sampler, note])
 
   useEffect(() => {
-    if (activeKeys.includes(keyCode)) {
+    if (activeKeys.includes(keyCode) && !active) {
       start()
-    } else if (active) {
+    } else if (!activeKeys.includes(keyCode) && active) {
       stop()
     }
-    // eslint-disable-next-line
-  }, [activeKeys, keyCode])
+  }, [active, start, stop, activeKeys, keyCode])
+
+  useEffect(() => {
+    if (active) sampler.triggerAttack(note)
+  }, [active, sampler, note])
+
   return (
-    <div className={classNames(styles[type], { [styles.active]: active })} onMouseDown={start} onMouseUp={stop} />
+    <div
+      className={classNames(styles[type], { [styles.active]: active })}
+      onMouseDown={() => handleMouseDown(keyCode)}
+      onMouseUp={() => handleMouseUp(keyCode)}
+    >
+      {keyMap[keyCode]}
+    </div>
   )
 }
 

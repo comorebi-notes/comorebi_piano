@@ -1,11 +1,16 @@
 @import '../assets/stylesheets/bootstrap_custom'
 
 .white
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: flex-end
   border: 2px solid $gray-dark
   background-color: $white
   height: 100%
   width: 100%
-  cursor: pointer
+  padding-bottom: .2em
+  color: lighten($black, 50%)
   &:not(:first-child)
     border-left: none
   &:hover
@@ -13,13 +18,18 @@
   &:active, &.active
     background-color: darken($white, 20%)
 .black
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: flex-end
   $white-width: calc(100% / 7)
   $black-width: 8%
+  position: absolute
   background-color: $gray-dark
   height: 100%
   width: 8%
-  cursor: pointer
-  position: absolute
+  padding-bottom: .2em
+  color: darken($white, 20%)
   &:hover
     background-color: darken($gray-dark, 10%)
   &:active, &.active
