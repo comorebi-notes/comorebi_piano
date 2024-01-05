@@ -58,7 +58,14 @@ export const keyboardCodeMap = {
   'C#5': 'Quote',
   'D5':  'IntlRo',
   'D#5': 'Backslash',
-  'E5':  'ShiftRight'
+  'E5':  'ShiftRight',
+  'F5':  '__F5',
+  'F#5': '__F#5',
+  'G5':  '__G5',
+  'G#5': '__G#5',
+  'A5':  '__A5',
+  'A#5': '__A#5',
+  'B5':  '__B5'
 }
 
 export const keyMap = {
