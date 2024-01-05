@@ -2,11 +2,12 @@ import { Note } from 'tonal'
 
 let Tone
 
-export const initializeTone = async ({ setLoaded, setVolumeNode, setSampler }) => {
+export const initializeTone = async ({ setLoaded, setVolumeNode, setReverbNode, setSampler }) => {
   Tone = await import('tone')
 
-  const volumeNode = new Tone.Volume(0).toDestination()
-  const sampler = new Tone.Sampler({
+  const volumeOptions = 0
+  const reverbOptions = { decay: 1.5, wet: 0 }
+  const samplerOptions = {
     urls: {
       E2: 'e2.mp3',
       E3: 'e3.mp3',
@@ -14,11 +15,14 @@ export const initializeTone = async ({ setLoaded, setVolumeNode, setSampler }) =
       E5: 'e5.mp3'
     },
     baseUrl: './samples/',
-  })
+  }
 
-  sampler.connect(volumeNode)
+  const volumeNode = new Tone.Volume(volumeOptions).toDestination()
+  const reverbNode = new Tone.Reverb(reverbOptions).connect(volumeNode)
+  const sampler = new Tone.Sampler(samplerOptions).connect(reverbNode)
 
   setVolumeNode(volumeNode)
+  setReverbNode(reverbNode)
   setSampler(sampler)
 
   Tone.loaded().then(() => setLoaded(true))

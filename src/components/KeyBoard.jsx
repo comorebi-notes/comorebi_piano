@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Key from './Key'
 import VolumeSlider from './VolumeSlider'
 import TransposeSlider from './TransposeSlider'
+import ReverbSwitch from './ReverbSwitch'
 import styles from './KeyBoard.module.sass'
 import { initializeTone, keyboardCodeMap, transposeNote } from '../utils/tone'
 
@@ -10,6 +11,7 @@ const KeyBoard = () => {
   const [loaded, setLoaded] = useState(false)
   const [sampler, setSampler] = useState()
   const [volumeNode, setVolumeNode] = useState()
+  const [reverbNode, setReverbNode] = useState()
   const [activeKeys, setActiveKeys] = useState([])
   const [transpose, setTranspose] = useState(0)
 
@@ -24,7 +26,7 @@ const KeyBoard = () => {
   const handleMouseUp = (keyCode) => setActiveKeys(activeKeys.filter((n) => n !== keyCode))
 
   useEffect(() => {
-    if (started) initializeTone({ setLoaded, setSampler, setVolumeNode })
+    if (started) initializeTone({ setLoaded, setVolumeNode, setReverbNode, setSampler })
   }, [started])
 
   return (
@@ -39,6 +41,7 @@ const KeyBoard = () => {
       <div className={styles.controls}>
         <VolumeSlider volumeNode={volumeNode} />
         <TransposeSlider transpose={transpose} setTranspose={setTranspose} />
+        <ReverbSwitch reverbNode={reverbNode} setReverbNode={setReverbNode} />
       </div>
       <div className={styles.keyboards}>
         {[2, 3, 4, 5].map((octave) => (

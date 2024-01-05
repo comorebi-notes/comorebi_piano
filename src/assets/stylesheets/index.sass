@@ -63,5 +63,56 @@ html
     &:focus-visible
       outline-offset: $range-slider-focus-visible
   &-value
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    width: 1.6rem
+    color: $white
+    font-size: .88rem
+
+.switch-check-box
+  $switch-knob-size: 1.2rem
+  $switch-width: $switch-knob-size * 1.8
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 1rem
+  &-label
+    display: flex
+    justify-content: center
+    align-items: center
+    gap: 1rem
+    color: $white
+    font-size: .88rem
+  &-input
+    display: none
+  &-ui
+    cursor: pointer
+    position: relative
+    display: block
+    width: $switch-width
+    height: $switch-knob-size
+    border-radius: 100rem
+    background-color: $white
+    &:before
+      content: ""
+      position: absolute
+      top: 0
+      left: 0
+      display: block
+      width: $switch-knob-size
+      height: $switch-knob-size
+      background-color: $gray
+      border-radius: 100rem
+      transform: scale(.8)
+      transition: left .24s ease-out, background-color .24s ease-out
+  &-input:checked + &-ui:before
+    left: calc($switch-width - $switch-knob-size)
+    background-color: $gray-darker
+  &-value
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    width: 1.6rem
     color: $white
     font-size: .88rem
