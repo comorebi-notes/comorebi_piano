@@ -22,8 +22,14 @@ const KeyBoard = () => {
   const handleKeyUp = (e) => {
     setActiveKeys(activeKeys.filter((n) => n !== e.code))
   }
-  const handleMouseDown = (keyCode) => setActiveKeys(activeKeys.concat(keyCode))
-  const handleMouseUp = (keyCode) => setActiveKeys(activeKeys.filter((n) => n !== keyCode))
+  const handleMouseDown = (keyCode) => {
+    setActiveKeys(activeKeys.concat(keyCode))
+    window.addEventListener('mouseup', handleMouseUp, true)
+  }
+  const handleMouseUp = (keyCode) => {
+    setActiveKeys(activeKeys.filter((n) => n !== keyCode))
+    window.removeEventListener('mouseup', handleMouseUp, true)
+  }
 
   useEffect(() => {
     if (started) initializeTone({ setLoaded, setVolumeNode, setReverbNode, setSampler })
