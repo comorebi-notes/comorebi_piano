@@ -1,4 +1,4 @@
-@import '../assets/stylesheets/bootstrap_custom'
+@use '../assets/stylesheets/lib' as *
 
 .wrapper
   outline: none
@@ -9,7 +9,7 @@
   align-items: center
 .keyboard
   position: relative
-  width: 16rem
+  width: 18rem
   height: 20rem
   display: flex
   justify-content: center
@@ -27,6 +27,7 @@
   width: 100%
   height: 60%
 .start_btn
+  cursor: pointer
   position: fixed
   width: 100vw
   height: 100vh
@@ -35,9 +36,8 @@
   justify-content: center
   align-items: center
   appearance: none
-  background-color: rgba($black, .75)
+  background-color: rgba($black, .88)
   border: none
   color: $white
-  font-size: 4rem
-  font-weight: 800
-  letter-spacing: .2em
+  font-size: 6rem
+  letter-spacing: .12em

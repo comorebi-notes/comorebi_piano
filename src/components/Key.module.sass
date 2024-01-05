@@ -1,16 +1,11 @@
-@import '../assets/stylesheets/bootstrap_custom'
+@use '../assets/stylesheets/lib' as *
 
 .white
-  cursor: pointer
-  display: flex
-  justify-content: center
-  align-items: flex-end
-  border: 2px solid $gray-dark
+  border: 2px solid $gray-darkest
   background-color: $white
   height: 100%
   width: 100%
-  padding-bottom: .2em
-  color: lighten($black, 50%)
+  color: $gray-darkest
   &:not(:first-child)
     border-left: none
   &:hover
@@ -18,22 +13,17 @@
   &:active, &.active
     background-color: darken($white, 20%)
 .black
-  cursor: pointer
-  display: flex
-  justify-content: center
-  align-items: flex-end
   $white-width: calc(100% / 7)
   $black-width: 8%
   position: absolute
-  background-color: $gray-dark
+  background-color: $gray-darkest
   height: 100%
   width: 8%
-  padding-bottom: .2em
   color: darken($white, 20%)
   &:hover
-    background-color: darken($gray-dark, 10%)
+    background-color: darken($gray-darkest, 10%)
   &:active, &.active
-    background-color: darken($gray-dark, 20%)
+    background-color: darken($gray-darkest, 20%)
   &:first-child
     left: calc($white-width - $black-width / 2)
   &:nth-child(2)
@@ -44,3 +34,10 @@
     left: calc($white-width * 5 - $black-width / 2)
   &:nth-child(5)
     left: calc($white-width * 6 - $black-width / 2)
+.white, .black
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: flex-end
+  padding-bottom: .4rem
+  font-size: .88rem

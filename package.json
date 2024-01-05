@@ -6,11 +6,11 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "bootstrap": "^5.3.2",
     "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
+    "reset-css": "^5.0.2",
     "sass": "^1.69.7",
     "tone": "^14.7.77"
   },
